@@ -22,9 +22,10 @@ public class StickRotator : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") ||
+            other.gameObject.CompareTag("Opponent"))
         {
-            Vector3 dir = (other.transform.position - transform.position).normalized;
+            Vector3 dir = (other.transform.position - other.GetContact(0).point).normalized;
             dir.y = 0f;
 
             other.gameObject.GetComponent<Rigidbody>().AddForce

@@ -17,6 +17,8 @@ public class Mover : MonoBehaviour
 
     void Update()
     {
+        //Using SIN waves to move object to any direction with any speed you desire
+
         if (period <= Mathf.Epsilon) { return; }    //Safer way instead of (period ==0)
         float cycles = Time.time / period;      //Continually growing over time
 

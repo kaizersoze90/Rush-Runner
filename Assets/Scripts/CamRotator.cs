@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CamRotator : MonoBehaviour
 {
+    [Header("Settings")]
     [SerializeField] float rotateSpeed;
     [SerializeField] Transform target;
 

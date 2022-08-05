@@ -7,8 +7,8 @@ using UnityEngine;
 
 public class RankManager : MonoBehaviour
 {
+    [Header("Settings")]
     [SerializeField] Transform[] challengers;
-    //[SerializeField] TextMeshProUGUI[] rankTexts;
     [SerializeField] TextMeshProUGUI rankText;
     [SerializeField] float rankCheckDelay;
 
@@ -26,7 +26,7 @@ public class RankManager : MonoBehaviour
 
     IEnumerator CheckRanking()
     {
-        while (true)
+        while (GameManager.Instance.IsGameActive)
         {
             foreach (Transform player in challengers)
             {
@@ -53,9 +53,10 @@ public class RankManager : MonoBehaviour
             {
                 rankText.text = (i + 1).ToString();
 
-                //FOR ALL OPPONENTS RANKING LIST, REPLACE ABOVE LINE WITH THIS AND ADD TEXT ARRAY
+                //TO SHOW ALL OPPONENTS IN RANKING LIST, REPLACE ABOVE LINE WITH THIS AND ADD TEXT ARRAY
                 //rankTexts[i].text = (i + 1) + " . " + item.Value.name;
             }
+
             i++;
         }
     }

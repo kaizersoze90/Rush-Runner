@@ -5,17 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Components")]
     [SerializeField] PlayerController player;
     [SerializeField] UIManager uiManager;
     [SerializeField] CinemachineManager camManager;
     [SerializeField] PaintWallManager paintManager;
+
+    [Header("Settings")]
     [SerializeField] float victoryDelay;
     [SerializeField] float danceDelay;
 
     public static GameManager Instance { get; private set; }
     public bool IsGameActive { get; private set; }
 
-    void Start()
+    bool _isVictorious;
+
+    void Awake()
     {
         if (Instance == null)
         {
@@ -29,10 +34,21 @@ public class GameManager : MonoBehaviour
         IsGameActive = true;
     }
 
+    void Update()
+    {
+        if (uiManager.GetPaintPercentage() >= 1f && !_isVictorious)
+        {
+            _isVictorious = true;
+
+            AudioManager.Instance.PlayVictorySFX();
+
+            ProcessReloadGame();
+        }
+    }
+
     public void ProcessReloadGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        IsGameActive = true;
+        StartCoroutine(nameof(ReloadGame));
     }
 
     public void ProcessVictory()
@@ -40,9 +56,31 @@ public class GameManager : MonoBehaviour
         StartCoroutine(nameof(Victory));
     }
 
+    IEnumerator ReloadGame()
+    {
+        if (IsGameActive)
+        {
+            IsGameActive = false;
+
+            AudioManager.Instance.PlayFailSFX();
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+
+        IsGameActive = true;
+    }
+
     IEnumerator Victory()
     {
         IsGameActive = false;
+
+        DestroyOpponents();
+
+        AudioManager.Instance.PlayVictorySFX();
+
+        uiManager.HideRank();
         camManager.SetDanceCam();
         player.SetDanceAnim();
 
@@ -58,5 +96,15 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         uiManager.SetPaintSlider();
+    }
+
+    void DestroyOpponents()
+    {
+        OpponentController[] opponents = FindObjectsOfType<OpponentController>();
+
+        foreach (OpponentController opponent in opponents)
+        {
+            Destroy(opponent.gameObject);
+        }
     }
 }

@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class HalfDonutController : MonoBehaviour
 {
-    [SerializeField] float maxDelayTrigger, minDelayTrigger;
+    [Header("Settings")]
+    [SerializeField] float maxDelayTrigger;
+    [SerializeField] float minDelayTrigger;
 
     Animator _animator;
 

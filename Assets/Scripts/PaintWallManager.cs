@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PaintWallManager : MonoBehaviour
 {
-    [SerializeField] Canvas canvas;
+    [SerializeField] Canvas paintBrush;
 
     AudioSource _audioSource;
     Painter[] pieces;
@@ -36,7 +36,7 @@ public class PaintWallManager : MonoBehaviour
 
     public void ShowPaintBrush()
     {
-        canvas.gameObject.SetActive(true);
+        paintBrush.gameObject.SetActive(true);
     }
 
     public void ActivateWall()
@@ -46,6 +46,6 @@ public class PaintWallManager : MonoBehaviour
             piece.GetComponent<Painter>().enabled = true;
         }
 
-        canvas.gameObject.SetActive(false);
+        paintBrush.gameObject.SetActive(false);
     }
 }

@@ -6,19 +6,18 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] PaintWallManager wallManager;
+    [SerializeField] GameObject rankDisplay;
     [SerializeField] Slider paintedSlider;
 
-    bool _isVictorious;
 
     void Update()
     {
         paintedSlider.value = wallManager.CurrentProgress();
+    }
 
-        if (paintedSlider.value >= 1f && !_isVictorious)
-        {
-            _isVictorious = true;
-            StartCoroutine(nameof(ProcessVictory));
-        }
+    public float GetPaintPercentage()
+    {
+        return paintedSlider.value;
     }
 
     public void SetPaintSlider()
@@ -26,12 +25,8 @@ public class UIManager : MonoBehaviour
         paintedSlider.gameObject.SetActive(true);
     }
 
-    IEnumerator ProcessVictory()
+    public void HideRank()
     {
-        AudioManager.Instance.PlayVictorySFX();
-
-        yield return new WaitForSeconds(1f);
-
-        GameManager.Instance.ProcessReloadGame();
+        rankDisplay.SetActive(false);
     }
 }

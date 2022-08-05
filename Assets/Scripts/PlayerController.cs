@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [Header("Settings")]
     [SerializeField] float moveSpeed;
     [SerializeField] float turnSpeed;
     [SerializeField] float touchSensitivity;
@@ -59,7 +60,7 @@ public class PlayerController : MonoBehaviour
         else if (other.CompareTag("Finish"))
         {
             GameManager.Instance.ProcessVictory();
-            AudioManager.Instance.PlayVictorySFX();
+
             _isAligningPos = true;
         }
     }

@@ -18,15 +18,27 @@ public class OpponentController : MonoBehaviour
         _startPos = transform.position;
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Finish"))
+        {
+            GameManager.Instance.ProcessReloadGame();
+        }
+    }
+
     void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Enemy"))
+        {
+            StartCoroutine(nameof(ProcessDie));
+        }
+        else if (other.gameObject.CompareTag("Stick"))
         {
             StartCoroutine(nameof(ProcessHit));
         }
     }
 
-    IEnumerator ProcessHit()
+    IEnumerator ProcessDie()
     {
         _agent.enabled = false;
         transform.position = _startPos;
@@ -35,5 +47,19 @@ public class OpponentController : MonoBehaviour
 
         _agent.enabled = true;
         _agent.SetDestination(target.position);
+    }
+
+    IEnumerator ProcessHit()
+    {
+        _agent.enabled = false;
+
+        yield return new WaitForSeconds(0.5f);
+
+        _agent.enabled = true;
+
+        if (_agent.isOnNavMesh)
+        {
+            _agent.SetDestination(target.position);
+        }
     }
 }

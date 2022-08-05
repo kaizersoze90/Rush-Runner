@@ -6,7 +6,9 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
 
+    [Header("Sound Effects")]
     [SerializeField] AudioClip victorySFX;
+    [SerializeField] AudioClip failSFX;
 
     AudioSource _audioSource;
 
@@ -30,4 +32,8 @@ public class AudioManager : MonoBehaviour
         _audioSource.PlayOneShot(victorySFX);
     }
 
+    public void PlayFailSFX()
+    {
+        _audioSource.PlayOneShot(failSFX);
+    }
 }

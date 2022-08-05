@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CinemachineManager : MonoBehaviour
 {
+    [Header("Cameras")]
     [SerializeField] CinemachineVirtualCamera danceCam;
     [SerializeField] CinemachineVirtualCamera paintCam;
 
