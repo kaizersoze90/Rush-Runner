@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     float _rawDeltaX;
     float _deltaX;
     float _startSpeed;
-    bool _isDragging;
+    bool _onRotator;
     bool _isPullingBack;
     bool _isAligningPos;
 
@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("Dragging"))
         {
-            _isDragging = !_isDragging;
+            _onRotator = !_onRotator;
         }
         else if (other.CompareTag("Finish"))
         {
@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
         _newPosX = transform.position.x + turnSpeed * _deltaX * Time.deltaTime;
 
-        if (_isDragging) { return; }
+        if (_onRotator) { return; }
         _newPosX = Mathf.Clamp(_newPosX, -screenXLimit, screenXLimit);
     }
 
